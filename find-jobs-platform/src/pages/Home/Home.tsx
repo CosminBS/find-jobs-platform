@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form"
+import AccordionJobs from "../../components/AccordionJobs/AccordionJobs";
 
 
 const HomeCard = () => {
@@ -32,11 +33,15 @@ const HomeCard = () => {
 
 const Home = () => {
   return (
-    <div className="bg-[url('./assets/homeBg.jpg')] w-full h-[90dvh] bg-cover bg-center bg-no-repeat px-4 py-7">
-        <HomeCard/>
-
-
+    <div>
+        <div className="bg-[url('./assets/homeBg.jpg')] w-full h-[90dvh] bg-cover bg-center bg-no-repeat px-4 py-7">
+            <HomeCard/>
+        </div>
+        <div>
+            <AccordionJobs/>
+        </div>
     </div>
+
   )
 }
 
