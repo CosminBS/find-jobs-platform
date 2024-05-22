@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form"
 import AccordionJobs from "../../components/AccordionJobs/AccordionJobs";
 
-
 const HomeCard = () => {
 
   let {register, handleSubmit, formState: {errors}} = useForm();
@@ -38,7 +37,7 @@ const Home = () => {
             <HomeCard/>
         </div>
         <div>
-            <AccordionJobs/>
+            <AccordionJobs/>        
         </div>
     </div>
 
