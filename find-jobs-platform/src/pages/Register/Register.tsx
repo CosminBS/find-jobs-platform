@@ -3,7 +3,7 @@ import { BriefcaseIcon, UserCircleIcon, CheckBadgeIcon    } from "@heroicons/rea
 
 const Register = () => {
   return (
-    <div className="flex flex-col py-10 px-5 bg-[#ededed] gap-10 lg:h-screen">
+    <div className="flex flex-col py-10 px-5 bg-[#f5f5ff] gap-10 lg:h-screen">
         <span className="text-2xl font-bold text-[#40128B]"><Link to='/'>FindJobs.</Link></span>
 
         <div className="w-full flex items-center flex-col">
@@ -25,9 +25,10 @@ const Register = () => {
                             <p className="flex gap-2"><CheckBadgeIcon className="h-4 w-4 text-green-500"/>Manually verified ads and companies</p>
                             <p className="flex gap-2"><CheckBadgeIcon className="h-4 w-4 text-green-500"/>Personalized job recommendations</p>
                      </span>
-                    <button className="py-3 w-full bg-[#9336B4] rounded-sm text-white font-semibold hover:bg-[#ce76ee]">
-                    <Link to='/register-as-candidate'>I want to get hired</Link>
-                    </button>
+                     <Link to='/register-as-candidate'> 
+                        <button className="py-3 w-full bg-[#9336B4] rounded-sm text-white font-semibold hover:bg-[#ce76ee]">I want to get hired
+                        </button>
+                    </Link>
                 </span>
 
             </div>
@@ -44,9 +45,11 @@ const Register = () => {
                         <p className="flex gap-2"><CheckBadgeIcon className="h-4 w-4 text-green-500"/>High performing recruitment ads</p>
                         <p className="flex gap-2"><CheckBadgeIcon className="h-4 w-4 text-green-500"/>Impeccable customer care</p>
                      </span>
-                    <button className="py-3 w-full bg-[#40128B] rounded-sm text-white hover:bg-[#866eb5]">
-                    <Link to='/register-as-company'>I want to hire</Link>
-                    </button>
+                    <Link to='/register-as-company'>
+                        <button className="py-3 w-full bg-[#40128B] rounded-sm text-white hover:bg-[#866eb5]">
+                            I want to hire
+                        </button>
+                    </Link>
                 </span>
 
             </div>

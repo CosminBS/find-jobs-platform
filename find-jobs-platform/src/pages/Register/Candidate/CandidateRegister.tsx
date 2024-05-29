@@ -1,13 +1,28 @@
 import { useForm } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { User } from "../../../interface/interface"
+import { registerUser } from "../../../api/methods/auth"
+import { useToast } from "../../../context/ToastContext"
 
 const CandidateRegister = () => {
 
   const {register, handleSubmit, formState:{errors}} = useForm()
+  const { toastSuccess, toastError } = useToast()
+  const navigate = useNavigate()
 
   const onSubmit: any = async(data:User) => {
-    console.log(data)
+    try{
+      const registerSucces = await registerUser(data)
+      if(registerSucces){
+        toastSuccess('Registered successfully.')
+        navigate('/login')
+      }else{
+        toastError('Error during registration.')
+      }
+
+    } catch(error){
+      console.error(error)
+    }
   }
 
 
@@ -69,7 +84,7 @@ const CandidateRegister = () => {
 
           <div className="w-full flex justify-between flex-col gap-2">
             <label htmlFor="birthDate">Birth date</label>
-            <input type="date" id="birthDate" className="py-3 w-full px-2 border-[1px] border-gray-300 rounded-md outline-none text-[13px]" {...register('dateOfBirth', {required: {value: true, message:'This field is mandatory'},
+            <input type="date" id="birthDate" className="py-3 w-full px-2 border-[1px] border-gray-300 rounded-md outline-none text-[13px]" {...register('birthDate', {required: {value: true, message:'This field is mandatory'},
             validate: value => {
               const selectedDate = new Date(value);
               const minAge = new Date();
