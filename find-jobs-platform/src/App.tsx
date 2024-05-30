@@ -1,11 +1,14 @@
 import './App.css'
 import AppRouter from './routes/router'
+import { UserDataProvider } from './context/UserDataContext'
 
 function App() {
 
   return (
     <>
-      <AppRouter/>
+      <UserDataProvider>
+        <AppRouter/>
+      </UserDataProvider>
     </>
   )
 }

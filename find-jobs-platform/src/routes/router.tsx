@@ -6,7 +6,6 @@ import CompanyRegister from "../pages/Register/Company/CompanyRegister"
 import CandidateRegister from "../pages/Register/Candidate/CandidateRegister"
 import { ToastProvider } from "../context/ToastContext"
 
-
 const AppRouter = () => {
 
   const routes = [

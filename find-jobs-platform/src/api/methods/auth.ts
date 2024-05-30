@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { User } from '../../interface/interface'
 import { auth, db } from '../firebase/firebase.config'
 import { setDoc, doc, collection, query, where, getDoc, getDocs } from 'firebase/firestore'
@@ -90,5 +90,27 @@ export async function fetchUser(uid: string): Promise<User> {
     } catch(error){
         console.error(error)
         throw new Error('Error fetching user');
+    }
+}
+
+
+// login user
+export async function loginUser(user: User){
+    try{
+        const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password as string)
+        const loggedInUser = await fetchUser(userCredential.user.uid)
+        return loggedInUser
+        
+    }catch(error: any){
+        if (error.code === 'auth/wrong-password') {
+            throw new Error('Invalid email or password. Please try again.'); 
+        } else if (error.code === 'auth/user-not-found') {
+            throw new Error('No user found with this email. Please check your email and try again.'); 
+        }else if(error.code === 'auth/invalid-credential'){
+            throw new Error('Invalid email address or password. Please try again later.'); 
+        } else {
+            console.error(error)
+            throw new Error('An error occurred during login. Please try again later.'); 
+        }
     }
 }
