@@ -18,7 +18,7 @@ export const userDataContext = createContext<UserDataContext | undefined>(undefi
 export const useUserDetails = (): UserDataContext => {
     const context = useContext(userDataContext)
     if(!context){
-        throw new Error("useUserDetail must be used within a ToastProvider");
+        throw new Error("useUserDetail must be used within a Provider");
     }
 
     return context
@@ -28,22 +28,22 @@ export const UserDataProvider = ({children}: UserDataProvider) => {
     const [userDetails, setUserDetails] = useState({} as User);
     const [loading, setLoading] = useState(false)
 
-    // const getUser = async() => {
-    //     const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string) || ""
+    const getUser = async() => {
+        const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string) || ""
 
-    //     if(loggedUser.length){
-    //         // const userData = await fetchUser(loggedUser)
-    //         // if(userData){
-    //         //     setUserDetails(userData)
-    //         // }else {
-    //         //     console.log('User not found')
-    //         // }
-    //     }
-    // }
+        if(loggedUser.length){
+            const userData = await fetchUser(loggedUser)
+            if(userData){
+                setUserDetails(userData)
+            }else {
+                console.log('User not found')
+            }
+        }
+    }
 
-    // useEffect(() => {
-    //     getUser()
-    // },[])
+    useEffect(() => {
+        getUser()
+    },[])
 
     return (
         <userDataContext.Provider value={{userDetails, setUserDetails, loading, setLoading}}>
