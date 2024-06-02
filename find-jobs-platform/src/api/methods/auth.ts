@@ -60,7 +60,7 @@ export async function checkEmail(email: string): Promise<boolean>{
 
     } catch (error){
         console.error(error)
-        throw new Error('Email already in use')
+        throw new Error('Error checking email')
     }
 
 }
@@ -99,6 +99,7 @@ export async function loginUser(user: User){
     try{
         const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password as string)
         const loggedInUser = await fetchUser(userCredential.user.uid)
+        
         return loggedInUser
         
     }catch(error: any){
@@ -114,3 +115,4 @@ export async function loginUser(user: User){
         }
     }
 }
+

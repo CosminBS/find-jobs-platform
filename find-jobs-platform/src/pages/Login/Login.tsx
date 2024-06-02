@@ -4,6 +4,7 @@ import { useToast } from "../../context/ToastContext"
 import { User } from "../../interface/interface"
 import { useUserDetails } from "../../context/UserDataContext"
 import { loginUser } from "../../api/methods/auth"
+import { loginCompanyUser } from "../../api/methods/createCompanyAccount"
 
 const Login = () => {
 
@@ -16,6 +17,9 @@ const Login = () => {
     try{
       setLoading(true)
       const loggedInSucces = await loginUser(data)
+
+      const companyLoggedIn = await loginCompanyUser(data)
+
       if(loggedInSucces){
         toastSuccess('Logged in successfully.')
         setUserDetails(loggedInSucces)
