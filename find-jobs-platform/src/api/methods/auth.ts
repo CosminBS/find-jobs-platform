@@ -2,12 +2,14 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import { User } from '../../interface/interface'
 import { auth, db } from '../firebase/firebase.config'
 import { setDoc, doc, collection, query, where, getDoc, getDocs } from 'firebase/firestore'
+import { fetchCompany } from './createCompanyAccount'
 
 // create account
 export async function registerUser(user: User): Promise<boolean>{
     try{
         const emailExist = await checkEmail(user.email)
 
+        
         if(emailExist){
             throw new Error('Email already in use.')
         }
@@ -66,25 +68,28 @@ export async function checkEmail(email: string): Promise<boolean>{
 }
 
 // get user
-export async function fetchUser(uid: string): Promise<User> {
+export async function fetchUser(uid: string): Promise<User | null> {
     try{
         const docRef = doc(db, 'users', uid)
         const docSnap = await getDoc(docRef)
 
         if(docSnap.exists()){
             const userData = docSnap.data()
-            const { uid, email } = userData
+            const { uid, email, firstName, lastName, birthDate } = userData
 
             const user: User = {
                 uid,
-                email
+                email,
+                firstName,
+                lastName,
+                birthDate
             };
 
             localStorage.setItem('loggedUser', JSON.stringify(uid))
 
             return user
         } else {
-            throw new Error('User doesn\'t exist');
+            return null
         }
 
     } catch(error){
@@ -98,8 +103,19 @@ export async function fetchUser(uid: string): Promise<User> {
 export async function loginUser(user: User){
     try{
         const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password as string)
-        const loggedInUser = await fetchUser(userCredential.user.uid)
-        
+        let loggedInUser = await fetchUser(userCredential.user.uid)
+        console.log(loggedInUser)
+
+        if (!loggedInUser) {
+            loggedInUser = await fetchCompany(userCredential.user.uid)
+            console.log(loggedInUser)
+        }
+
+
+        if (!loggedInUser) {
+            throw new Error('No user found with this email in both collections. Please check your email and try again.');
+        }
+
         return loggedInUser
         
     }catch(error: any){

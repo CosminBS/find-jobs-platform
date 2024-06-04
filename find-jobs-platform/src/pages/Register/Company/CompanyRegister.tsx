@@ -60,13 +60,19 @@ const CompanyRegister = () => {
             <div className="w-full flex justify-between flex-col gap-2">
               <label htmlFor="companyName">Company Name</label>
               <input type="text" placeholder="SC MYCOMPANY SRL" id="companyName" className="py-3 w-full px-2 border-[1px] border-gray-300 rounded-md outline-none text-[13px]" {...register('companyName', {required: true})}/>
-              <p className="text-xs h-3 text-red-600">{errors.city && 'This field are mandatory.'}</p>
+              <p className="text-xs h-3 text-red-600">{errors.companyName && 'This field are mandatory.'}</p>
             </div>
 
             <div className="w-full flex justify-between flex-col gap-2">
               <label htmlFor="socialAddress">Social streed address</label>
               <input type="text" placeholder="e.g. Teleajen 19A, Sector 2" id="socialAddress" className="py-3 w-full px-2 border-[1px] border-gray-300 rounded-md outline-none text-[13px]" {...register('socialAddress', {required: true})}/>
-              <p className="text-xs h-3 text-red-600">{errors.city && 'This field are mandatory.'}</p>
+              <p className="text-xs h-3 text-red-600">{errors.socialAddress && 'This field are mandatory.'}</p>
+            </div>
+
+            <div className="w-full flex justify-between flex-col gap-2">
+              <label htmlFor="country">Country</label>
+              <input type="text" placeholder="e.g. Romania" id="country" className="py-3 w-full px-2 border-[1px] border-gray-300 rounded-md outline-none text-[13px]" {...register('city', {required: true})}/>
+              <p className="text-xs h-3 text-red-600">{errors.country && 'This field are mandatory.'}</p>
             </div>
 
             <div className="w-full flex justify-between flex-col gap-2">

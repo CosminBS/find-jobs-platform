@@ -1,9 +1,10 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from "react";
-import { User } from "../interface/interface";
+import { Company, User } from "../interface/interface";
 import { fetchUser } from "../api/methods/auth";
+import { fetchCompany } from "../api/methods/createCompanyAccount";
 
 interface UserDataContext {
-    userDetails: User,
+    userDetails: User | Company | any
     setUserDetails: Dispatch<SetStateAction<User>>
     loading: boolean
     setLoading: Dispatch<SetStateAction<boolean>>
@@ -25,14 +26,19 @@ export const useUserDetails = (): UserDataContext => {
 }
 
 export const UserDataProvider = ({children}: UserDataProvider) => {
-    const [userDetails, setUserDetails] = useState({} as User);
+    const [userDetails, setUserDetails] = useState({} as User | Company);
     const [loading, setLoading] = useState(false)
 
     const getUser = async() => {
         const loggedUser = JSON.parse(localStorage.getItem('loggedUser') as string) || ""
 
         if(loggedUser.length){
-            const userData = await fetchUser(loggedUser)
+            let userData = await fetchUser(loggedUser)
+
+            if(!userData){
+                userData = await fetchCompany(loggedUser)
+            }
+
             if(userData){
                 setUserDetails(userData)
             }else {

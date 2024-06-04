@@ -1,10 +1,9 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 import { useToast } from "../../context/ToastContext"
-import { User } from "../../interface/interface"
+import { Company, User } from "../../interface/interface"
 import { useUserDetails } from "../../context/UserDataContext"
 import { loginUser } from "../../api/methods/auth"
-import { loginCompanyUser } from "../../api/methods/createCompanyAccount"
 
 const Login = () => {
 
@@ -13,12 +12,10 @@ const Login = () => {
   const { setUserDetails, setLoading } = useUserDetails()
   const navigate = useNavigate()
 
-  const onSubmit: any = async(data: User) => {
+  const onSubmit: any = async(data: User | Company) => {
     try{
       setLoading(true)
       const loggedInSucces = await loginUser(data)
-
-      const companyLoggedIn = await loginCompanyUser(data)
 
       if(loggedInSucces){
         toastSuccess('Logged in successfully.')

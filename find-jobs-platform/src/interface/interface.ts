@@ -14,6 +14,7 @@ export interface Company{
     tradeRegistration?: string
     socialAddress?: string
     city?: string
+    country?: string
     email: string
     password?: string
 }

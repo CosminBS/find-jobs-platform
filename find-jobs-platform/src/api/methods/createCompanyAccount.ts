@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { Company } from "../../interface/interface";
 import { auth, db } from "../firebase/firebase.config";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 
 // register company
@@ -35,56 +35,38 @@ export async function registerCompany(company: Company): Promise<boolean> {
     }
 }
 
-// fetchCompany
-
-export async function fetchCompany(uid: string): Promise<Company> {
-    try{
+// get company
+export async function fetchCompany(uid: string): Promise<Company | null> {
+    try {
         const docRef = doc(db, 'companies', uid)
         const docSnap = await getDoc(docRef)
 
-        if(docSnap.exists()){
-            const userData = docSnap.data()
-            const { uid, email } = userData
+        if (docSnap.exists()) {
+            const companyData = docSnap.data()
+            const { uid, email, companyName, VAT, tradeRegistration, socialAddress, city, country,  } = companyData
 
             const company: Company = {
                 uid,
-                email
-            };
+                email,
+                companyName, 
+                VAT, 
+                tradeRegistration, 
+                socialAddress, 
+                city, 
+                country
+            }
 
             localStorage.setItem('loggedUser', JSON.stringify(uid))
 
             return company
         } else {
-            throw new Error('Company doesn\'t exist');
+            return null
         }
-
-    } catch(error){
+    } catch (error) {
         console.error(error)
-        throw new Error('Error fetching user');
+        throw new Error('Error fetching company')
     }
 }
-
-// loginCompany
-export async function loginCompanyUser(user: Company){
-    try{
-        const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password as string)
-        const loggedInUser = await fetchCompany(userCredential.user.uid)
-        return loggedInUser
-        
-    }catch(error: any){
-        if (error.code === 'auth/wrong-password') {
-            throw new Error('Invalid email or password. Please try again.'); 
-        } else if (error.code === 'auth/user-not-found') {
-            throw new Error('No user found with this email. Please check your email and try again.'); 
-        }else if(error.code === 'auth/invalid-credential'){
-            throw new Error('Invalid email address or password. Please try again later.'); 
-        } else {
-            console.error(error)
-            throw new Error('An error occurred during login. Please try again later.'); 
-        }
-    }
-}
-
 
 // create company in Db
 export async function createCompanyInDB(company: Company){
