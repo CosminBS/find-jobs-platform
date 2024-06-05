@@ -5,7 +5,7 @@ import { fetchCompany } from "../api/methods/createCompanyAccount";
 
 interface UserDataContext {
     userDetails: User | Company | any
-    setUserDetails: Dispatch<SetStateAction<User>>
+    setUserDetails: Dispatch<SetStateAction<User | Company | any>>
     loading: boolean
     setLoading: Dispatch<SetStateAction<boolean>>
 }

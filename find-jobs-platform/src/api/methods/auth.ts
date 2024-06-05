@@ -1,5 +1,5 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { User } from '../../interface/interface'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { Company, User } from '../../interface/interface'
 import { auth, db } from '../firebase/firebase.config'
 import { setDoc, doc, collection, query, where, getDoc, getDocs } from 'firebase/firestore'
 import { fetchCompany } from './createCompanyAccount'
@@ -22,6 +22,7 @@ export async function registerUser(user: User): Promise<boolean>{
             firstName:user.firstName, 
             lastName:user.lastName, 
             birthDate:user.birthDate, 
+            role: 'user'
         })
 
         return true
@@ -40,7 +41,8 @@ export async function createUserInDB(user: User){
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            birthDate: user.birthDate
+            birthDate: user.birthDate,
+            role: 'user'
         })
 
 
@@ -75,14 +77,15 @@ export async function fetchUser(uid: string): Promise<User | null> {
 
         if(docSnap.exists()){
             const userData = docSnap.data()
-            const { uid, email, firstName, lastName, birthDate } = userData
+            const { uid, email, firstName, lastName, birthDate, role } = userData
 
             const user: User = {
                 uid,
                 email,
                 firstName,
                 lastName,
-                birthDate
+                birthDate,
+                role
             };
 
             localStorage.setItem('loggedUser', JSON.stringify(uid))
@@ -100,7 +103,7 @@ export async function fetchUser(uid: string): Promise<User | null> {
 
 
 // login user
-export async function loginUser(user: User){
+export async function loginUser(user: User | Company){
     try{
         const userCredential = await signInWithEmailAndPassword(auth, user.email, user.password as string)
         let loggedInUser = await fetchUser(userCredential.user.uid)
@@ -132,3 +135,11 @@ export async function loginUser(user: User){
     }
 }
 
+// log out
+export async function logOut(){
+    try{
+        await signOut(auth)
+    } catch (error){
+        console.error(error)
+    }
+}

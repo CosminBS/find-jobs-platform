@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
-import { User } from "../../../interface/interface"
+import { Company } from "../../../interface/interface"
 import { useToast } from "../../../context/ToastContext"
 import { registerCompany } from "../../../api/methods/createCompanyAccount"
 
@@ -10,7 +10,7 @@ const CompanyRegister = () => {
   const { toastSuccess, toastError } = useToast()
   const navigate = useNavigate()
 
-  const onSubmit: any = async(data:User) => {
+  const onSubmit: any = async(data: Company) => {
     try{
       const registerSucces = await registerCompany(data)
       if(registerSucces){
@@ -71,7 +71,7 @@ const CompanyRegister = () => {
 
             <div className="w-full flex justify-between flex-col gap-2">
               <label htmlFor="country">Country</label>
-              <input type="text" placeholder="e.g. Romania" id="country" className="py-3 w-full px-2 border-[1px] border-gray-300 rounded-md outline-none text-[13px]" {...register('city', {required: true})}/>
+              <input type="text" placeholder="e.g. Romania" id="country" className="py-3 w-full px-2 border-[1px] border-gray-300 rounded-md outline-none text-[13px]" {...register('country', {required: true})}/>
               <p className="text-xs h-3 text-red-600">{errors.country && 'This field are mandatory.'}</p>
             </div>
 

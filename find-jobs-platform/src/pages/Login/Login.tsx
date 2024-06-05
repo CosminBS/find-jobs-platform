@@ -4,6 +4,7 @@ import { useToast } from "../../context/ToastContext"
 import { Company, User } from "../../interface/interface"
 import { useUserDetails } from "../../context/UserDataContext"
 import { loginUser } from "../../api/methods/auth"
+import { useEffect } from "react"
 
 const Login = () => {
 
@@ -29,6 +30,14 @@ const Login = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if(JSON.parse(localStorage.getItem('loggedUser') as string)){
+      navigate('/')
+    }
+  }, [])
+
+
 
 
   return (

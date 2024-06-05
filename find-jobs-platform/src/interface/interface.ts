@@ -5,6 +5,7 @@ export interface User {
     email: string
     password?: string
     birthDate?: string
+    role?: 'user'
 }
 
 export interface Company{
@@ -17,4 +18,5 @@ export interface Company{
     country?: string
     email: string
     password?: string
+    role?: 'company'
 }

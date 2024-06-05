@@ -23,8 +23,10 @@ export async function registerCompany(company: Company): Promise<boolean> {
             tradeRegistration: company.tradeRegistration,
             socialAddress: company.socialAddress,
             city: company.city,
+            country: company.country,
             email: company.email,
-            password: company.password
+            password: company.password,
+            role: 'company'
         })
 
         return true
@@ -43,7 +45,7 @@ export async function fetchCompany(uid: string): Promise<Company | null> {
 
         if (docSnap.exists()) {
             const companyData = docSnap.data()
-            const { uid, email, companyName, VAT, tradeRegistration, socialAddress, city, country,  } = companyData
+            const { uid, email, companyName, VAT, tradeRegistration, socialAddress, city, country, role } = companyData
 
             const company: Company = {
                 uid,
@@ -53,7 +55,8 @@ export async function fetchCompany(uid: string): Promise<Company | null> {
                 tradeRegistration, 
                 socialAddress, 
                 city, 
-                country
+                country,
+                role
             }
 
             localStorage.setItem('loggedUser', JSON.stringify(uid))
@@ -79,7 +82,9 @@ export async function createCompanyInDB(company: Company){
             tradeRegistration: company.tradeRegistration,
             socialAddress: company.socialAddress,
             city: company.city,
+            country: company.country,
             email: company.email,
+            role: 'company'
         })
 
     } catch(error){
